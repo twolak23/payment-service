@@ -13,7 +13,7 @@ public class PaymentResponse {
 
   public PaymentResponse() {}
 
-  public PaymentResponse(PaymentStatusEnum status, String personFrom, String personTo) {
+  public PaymentResponse(String personFrom, String personTo, PaymentStatusEnum status) {
     this.status = status;
     this.personFrom = personFrom;
     this.personTo = personTo;

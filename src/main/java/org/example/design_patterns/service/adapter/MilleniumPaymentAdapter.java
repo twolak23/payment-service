@@ -26,6 +26,6 @@ public class MilleniumPaymentAdapter implements PaymentProvider {
             request.getPersonTo(),
             request.getAmount()
     );
-    return new PaymentResponse(request.getPersonFrom(), request.getPersonTo(), request.getAmount(), PaymentStatusEnum.ACCEPTED);
+    return new PaymentResponse(request.getPersonFrom(), request.getPersonTo(), PaymentStatusEnum.ACCEPTED);
   }
 }
