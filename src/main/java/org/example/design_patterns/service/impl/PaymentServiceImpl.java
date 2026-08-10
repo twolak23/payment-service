@@ -3,6 +3,7 @@ package org.example.design_patterns.service.impl;
 import org.example.design_patterns.domain.legacy.LegacyPaymentEntity;
 import org.example.design_patterns.domain.legacy.LegacyPaymentRequest;
 import org.example.design_patterns.domain.legacy.LegacyPaymentResponse;
+import org.example.design_patterns.model.PaymentStatusEnum;
 import org.example.design_patterns.repository.PaymentRepository;
 import org.example.design_patterns.service.PaymentProvider;
 import org.example.design_patterns.service.PaymentService;
@@ -39,13 +40,17 @@ public class PaymentServiceImpl implements PaymentService {
 
     LegacyPaymentEntity entity = new LegacyPaymentEntity(request.getPersonFrom(), request.getPersonTo(), request.getAmount(), Date.from(Instant.now()));
     try {
-      repository.save(entity);
+      entity = repository.save(entity);
+      LegacyPaymentResponse response = new LegacyPaymentResponse();
+      response.setPaymentId(entity.getId());
+      response.setPersonFrom(entity.getPersonFromName());
+      response.setPersonTo(entity.getPersonToName());
+      response.setStatus(PaymentStatusEnum.ACCEPTED);
+      return response;
     } catch (Exception e) {
       e.printStackTrace();
       throw e;
     }
-
-    return null;
   }
 
   private double applyDiscount(double amount) {
