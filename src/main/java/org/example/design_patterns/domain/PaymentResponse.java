@@ -13,6 +13,12 @@ public class PaymentResponse {
 
   public PaymentResponse() {}
 
+  public PaymentResponse(String personFrom, String personTo, PaymentStatusEnum status) {
+    this.status = status;
+    this.personFrom = personFrom;
+    this.personTo = personTo;
+  }
+
   public UUID getPaymentId() {
     return paymentId;
   }

@@ -1,13 +1,12 @@
 package org.example.design_patterns.service.impl;
 
-import org.example.design_patterns.domain.PaymentEntity;
 import org.example.design_patterns.domain.legacy.LegacyPaymentEntity;
 import org.example.design_patterns.domain.legacy.LegacyPaymentRequest;
 import org.example.design_patterns.domain.legacy.LegacyPaymentResponse;
 import org.example.design_patterns.repository.PaymentRepository;
+import org.example.design_patterns.service.PaymentProvider;
 import org.example.design_patterns.service.PaymentService;
 import org.example.design_patterns.service.discounter.Discounter;
-import org.example.design_patterns.service.impl.bank.MillenniumLegacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +19,12 @@ import java.util.Date;
 public class PaymentServiceImpl implements PaymentService {
 
   private final PaymentRepository repository;
-  private final MillenniumLegacyService millenniumService;
+  private final PaymentProvider paymentProvider;
 
   @Autowired
-  public PaymentServiceImpl(PaymentRepository repository, MillenniumLegacyService millenniumService) {
+  public PaymentServiceImpl(PaymentRepository repository, PaymentProvider paymentProvider) {
     this.repository = repository;
-    this.millenniumService = millenniumService;
+    this.paymentProvider = paymentProvider;
   }
 
   // To reduce code verbosity for strategy, use lambda expressions instead of implemented classes
@@ -38,14 +37,12 @@ public class PaymentServiceImpl implements PaymentService {
   public LegacyPaymentResponse pay(LegacyPaymentRequest request) {
     request.setAmount(applyDiscount(request.getAmount()));
 
-    String payment = millenniumService.makePayment(request.getPersonFrom(), request.getPersonTo(), request.getAmount());
-
     LegacyPaymentEntity entity = new LegacyPaymentEntity(request.getPersonFrom(), request.getPersonTo(), request.getAmount(), Date.from(Instant.now()));
     try {
       repository.save(entity);
     } catch (Exception e) {
       e.printStackTrace();
-
+      throw e;
     }
 
     return null;
