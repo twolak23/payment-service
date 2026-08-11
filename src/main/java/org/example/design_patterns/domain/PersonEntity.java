@@ -3,6 +3,7 @@ package org.example.design_patterns.domain;
 import jakarta.persistence.*;
 import org.example.design_patterns.model.PaymentStatusEnum;
 
+import java.util.Collection;
 import java.util.UUID;
 
 @Entity(name = "person")
@@ -18,19 +19,15 @@ public class PersonEntity {
   @Column(name = "last_name", nullable = false)
   private String lastName;
 
-  @Column(name = "status", nullable = false)
-  @Enumerated(EnumType.STRING)
-  private PaymentStatusEnum status;
+  @OneToMany
+  private Collection<AccountEntity> accounts;
 
-  public PersonEntity(String firstName, String lastName, PaymentStatusEnum status) {
+  public PersonEntity(String firstName, String lastName) {
     this.firstName = firstName;
     this.lastName = lastName;
-    this.status = status;
   }
 
-  public PersonEntity() {
-
-  }
+  public PersonEntity() {}
 
   public UUID getId() {
     return id;
@@ -56,11 +53,12 @@ public class PersonEntity {
     this.lastName = lastName;
   }
 
-  public PaymentStatusEnum getStatus() {
-    return status;
+  public Collection<AccountEntity> getAccounts() {
+    return accounts;
   }
 
-  public void setStatus(PaymentStatusEnum status) {
-    this.status = status;
+  public PersonEntity setAccounts(Collection<AccountEntity> accounts) {
+    this.accounts = accounts;
+    return this;
   }
 }
