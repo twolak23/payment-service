@@ -1,8 +1,8 @@
 package org.example.design_patterns.service.adapter;
 
-import org.example.design_patterns.domain.PaymentRequest;
-import org.example.design_patterns.domain.PaymentResponse;
-import org.example.design_patterns.model.PaymentStatusEnum;
+import org.example.design_patterns.model.rest.PaymentRequest;
+import org.example.design_patterns.model.rest.PaymentResponse;
+import org.example.design_patterns.model.enums.PaymentStatusEnum;
 import org.example.design_patterns.service.PaymentProvider;
 import org.example.design_patterns.service.impl.bank.MillenniumLegacyService;
 import org.springframework.beans.factory.annotation.Autowired;

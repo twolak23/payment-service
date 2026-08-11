@@ -1,6 +1,6 @@
-package org.example.design_patterns.domain.legacy;
+package org.example.design_patterns.model.domain.legacy;
 
-import org.example.design_patterns.model.PaymentStatusEnum;
+import org.example.design_patterns.model.enums.PaymentStatusEnum;
 
 import java.util.UUID;
 

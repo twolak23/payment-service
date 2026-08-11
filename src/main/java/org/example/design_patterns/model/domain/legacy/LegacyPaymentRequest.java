@@ -1,12 +1,12 @@
-package org.example.design_patterns.domain;
+package org.example.design_patterns.model.domain.legacy;
 
-public class PaymentRequest {
+public class LegacyPaymentRequest {
 
   private String personFrom;
   private String personTo;
   private double amount;
 
-  public PaymentRequest(String personFrom, String personTo, double amount) {
+  public LegacyPaymentRequest(String personFrom, String personTo, double amount) {
     this.personFrom = personFrom;
     this.personTo = personTo;
     this.amount = amount;

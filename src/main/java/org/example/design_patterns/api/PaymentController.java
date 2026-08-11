@@ -1,7 +1,7 @@
 package org.example.design_patterns.api;
 
-import org.example.design_patterns.domain.legacy.LegacyPaymentRequest;
-import org.example.design_patterns.domain.legacy.LegacyPaymentResponse;
+import org.example.design_patterns.model.domain.legacy.LegacyPaymentRequest;
+import org.example.design_patterns.model.domain.legacy.LegacyPaymentResponse;
 import org.example.design_patterns.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

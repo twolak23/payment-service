@@ -1,7 +1,7 @@
-package org.example.design_patterns.domain;
+package org.example.design_patterns.model.domain.entity;
 
 import jakarta.persistence.*;
-import org.example.design_patterns.model.PaymentStatusEnum;
+import org.example.design_patterns.model.enums.PaymentStatusEnum;
 
 import java.util.Date;
 import java.util.UUID;

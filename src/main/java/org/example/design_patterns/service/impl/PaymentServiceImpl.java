@@ -1,9 +1,9 @@
 package org.example.design_patterns.service.impl;
 
-import org.example.design_patterns.domain.legacy.LegacyPaymentEntity;
-import org.example.design_patterns.domain.legacy.LegacyPaymentRequest;
-import org.example.design_patterns.domain.legacy.LegacyPaymentResponse;
-import org.example.design_patterns.model.PaymentStatusEnum;
+import org.example.design_patterns.model.domain.legacy.LegacyPaymentEntity;
+import org.example.design_patterns.model.domain.legacy.LegacyPaymentRequest;
+import org.example.design_patterns.model.domain.legacy.LegacyPaymentResponse;
+import org.example.design_patterns.model.enums.PaymentStatusEnum;
 import org.example.design_patterns.repository.PaymentRepository;
 import org.example.design_patterns.service.PaymentProvider;
 import org.example.design_patterns.service.PaymentService;

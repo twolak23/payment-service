@@ -1,7 +1,7 @@
 package org.example.design_patterns.service;
 
-import org.example.design_patterns.domain.legacy.LegacyPaymentRequest;
-import org.example.design_patterns.domain.legacy.LegacyPaymentResponse;
+import org.example.design_patterns.model.domain.legacy.LegacyPaymentRequest;
+import org.example.design_patterns.model.domain.legacy.LegacyPaymentResponse;
 
 public interface PaymentService {
 
