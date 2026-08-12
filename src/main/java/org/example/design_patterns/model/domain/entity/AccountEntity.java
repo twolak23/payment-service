@@ -20,6 +20,9 @@ public class AccountEntity {
   @Enumerated(EnumType.STRING)
   private BankProviderEnum bankProvider;
 
+  @Column(name = "balance")
+  private double balance;
+
   @ManyToOne
   @JoinColumn(name = "person_id", referencedColumnName = "id")
   private PersonEntity person;
@@ -42,6 +45,15 @@ public class AccountEntity {
 
   public void setBankProvider(BankProviderEnum bankProvider) {
     this.bankProvider = bankProvider;
+  }
+
+  public double getBalance() {
+    return balance;
+  }
+
+  public AccountEntity setBalance(double balance) {
+    this.balance = balance;
+    return this;
   }
 
   public PersonEntity getPerson() {

@@ -6,12 +6,14 @@ public class AccountDetailsResponse {
   private String lastName;
   private String bankProvider;
   private String iban;
+  private double balance;
 
-  public AccountDetailsResponse(String firstName, String lastName, String bankProvider, String iban) {
+  public AccountDetailsResponse(String firstName, String lastName, String bankProvider, String iban, double balance) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.bankProvider = bankProvider;
     this.iban = iban;
+    this.balance = balance;
   }
 
   public AccountDetailsResponse() {}
@@ -49,6 +51,15 @@ public class AccountDetailsResponse {
 
   public AccountDetailsResponse setIban(String iban) {
     this.iban = iban;
+    return this;
+  }
+
+  public double getBalance() {
+    return balance;
+  }
+
+  public AccountDetailsResponse setBalance(double balance) {
+    this.balance = balance;
     return this;
   }
 }

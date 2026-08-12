@@ -10,7 +10,8 @@ public class AccountDetailsMapper {
             entity.getPerson().getFirstName(),
             entity.getPerson().getLastName(),
             entity.getBankProvider().getDescription(),
-            entity.getIban()
+            entity.getIban(),
+            entity.getBalance()
     );
     return response;
   }
