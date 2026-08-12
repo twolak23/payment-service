@@ -2,30 +2,30 @@ package org.example.design_patterns.model.rest;
 
 public class PaymentRequest {
 
-  private String sourceAccount;
-  private String targetAccount;
+  private String sourceAccountIban;
+  private String targetAccountIban;
   private double amount;
 
-  public PaymentRequest(String sourceAccount, String targetAccount, double amount) {
-    this.sourceAccount = sourceAccount;
-    this.targetAccount = targetAccount;
+  public PaymentRequest(String sourceAccountIban, String targetAccountIban, double amount) {
+    this.sourceAccountIban = sourceAccountIban;
+    this.targetAccountIban = targetAccountIban;
     this.amount = amount;
   }
 
-  public String getSourceAccount() {
-    return sourceAccount;
+  public String getSourceAccountIban() {
+    return sourceAccountIban;
   }
 
-  public void setSourceAccount(String sourceAccount) {
-    this.sourceAccount = sourceAccount;
+  public void setSourceAccountIban(String sourceAccountIban) {
+    this.sourceAccountIban = sourceAccountIban;
   }
 
-  public String getTargetAccount() {
-    return targetAccount;
+  public String getTargetAccountIban() {
+    return targetAccountIban;
   }
 
-  public void setTargetAccount(String targetAccount) {
-    this.targetAccount = targetAccount;
+  public void setTargetAccountIban(String targetAccountIban) {
+    this.targetAccountIban = targetAccountIban;
   }
 
   public double getAmount() {

@@ -23,6 +23,9 @@ public class AccountEntity {
   @Column(name = "balance")
   private double balance;
 
+  @Column(name = "card_number", nullable = false)
+  private String cardNumber;
+
   @ManyToOne
   @JoinColumn(name = "person_id", referencedColumnName = "id")
   private PersonEntity person;
@@ -53,6 +56,15 @@ public class AccountEntity {
 
   public AccountEntity setBalance(double balance) {
     this.balance = balance;
+    return this;
+  }
+
+  public String getCardNumber() {
+    return cardNumber;
+  }
+
+  public AccountEntity setCardNumber(String cardNumber) {
+    this.cardNumber = cardNumber;
     return this;
   }
 

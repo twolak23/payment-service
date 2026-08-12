@@ -22,10 +22,10 @@ public class MilleniumPaymentAdapter implements PaymentProvider {
   @Override
   public PaymentResponse makePayment(PaymentRequest request) {
     String result = legacyService.makePayment(
-            request.getSourceAccount(),
-            request.getTargetAccount(),
+            request.getSourceAccountIban(),
+            request.getTargetAccountIban(),
             request.getAmount()
     );
-    return new PaymentResponse(request.getSourceAccount(), request.getTargetAccount(), PaymentStatusEnum.ACCEPTED);
+    return new PaymentResponse(request.getSourceAccountIban(), request.getTargetAccountIban(), PaymentStatusEnum.ACCEPTED);
   }
 }

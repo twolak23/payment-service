@@ -29,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public AccountEntity getAccountDetailsByIban(String iban) {
+  public AccountEntity getAccountByIban(String iban) {
     AccountEntity entity = repository.getAccountEntityByIban(iban);
     return entity;
   }

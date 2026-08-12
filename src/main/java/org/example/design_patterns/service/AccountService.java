@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public interface AccountService {
   AccountDetailsResponse getAccountDetails(UUID accountId);
-  AccountEntity getAccountDetailsByIban(String iban);
+  AccountEntity getAccountByIban(String iban);
   void transfer(AccountEntity source, AccountEntity target, double amount);
 }

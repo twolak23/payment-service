@@ -2,11 +2,7 @@ package org.example.design_patterns.service.impl;
 
 import org.example.design_patterns.model.domain.entity.AccountEntity;
 import org.example.design_patterns.model.domain.entity.PaymentEntity;
-import org.example.design_patterns.model.domain.legacy.LegacyPaymentEntity;
-import org.example.design_patterns.model.domain.legacy.LegacyPaymentRequest;
-import org.example.design_patterns.model.domain.legacy.LegacyPaymentResponse;
 import org.example.design_patterns.model.enums.PaymentStatusEnum;
-import org.example.design_patterns.model.rest.AccountDetailsResponse;
 import org.example.design_patterns.model.rest.PaymentRequest;
 import org.example.design_patterns.model.rest.PaymentResponse;
 import org.example.design_patterns.repository.PaymentRepository;
@@ -44,10 +40,9 @@ public class PaymentServiceImpl implements PaymentService {
   @Override
   @Transactional
   public PaymentResponse pay(PaymentRequest request) {
-    request.setAmount(applyDiscount(request.getAmount()));
 
-    AccountEntity sourceAccount = accountService.getAccountDetailsByIban(request.getSourceAccount());
-    AccountEntity targetAccount = accountService.getAccountDetailsByIban(request.getTargetAccount());
+    AccountEntity sourceAccount = accountService.getAccountByIban(request.getSourceAccountIban());
+    AccountEntity targetAccount = accountService.getAccountByIban(request.getTargetAccountIban());
 
     PaymentEntity entity = new PaymentEntity(sourceAccount, targetAccount, request.getAmount(), Date.from(Instant.now()), PaymentStatusEnum.ACCEPTED);
     try {
