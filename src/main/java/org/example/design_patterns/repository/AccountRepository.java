@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface AccountRepository extends CrudRepository<AccountEntity, UUID> {
   AccountEntity getAccountEntityById(UUID accountId);
+
+  AccountEntity getAccountEntityByIban(String iban);
 }

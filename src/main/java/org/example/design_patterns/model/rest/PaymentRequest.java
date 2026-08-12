@@ -2,30 +2,30 @@ package org.example.design_patterns.model.rest;
 
 public class PaymentRequest {
 
-  private String personFrom;
-  private String personTo;
+  private String sourceAccount;
+  private String targetAccount;
   private double amount;
 
-  public PaymentRequest(String personFrom, String personTo, double amount) {
-    this.personFrom = personFrom;
-    this.personTo = personTo;
+  public PaymentRequest(String sourceAccount, String targetAccount, double amount) {
+    this.sourceAccount = sourceAccount;
+    this.targetAccount = targetAccount;
     this.amount = amount;
   }
 
-  public String getPersonFrom() {
-    return personFrom;
+  public String getSourceAccount() {
+    return sourceAccount;
   }
 
-  public void setPersonFrom(String personFrom) {
-    this.personFrom = personFrom;
+  public void setSourceAccount(String sourceAccount) {
+    this.sourceAccount = sourceAccount;
   }
 
-  public String getPersonTo() {
-    return personTo;
+  public String getTargetAccount() {
+    return targetAccount;
   }
 
-  public void setPersonTo(String personTo) {
-    this.personTo = personTo;
+  public void setTargetAccount(String targetAccount) {
+    this.targetAccount = targetAccount;
   }
 
   public double getAmount() {

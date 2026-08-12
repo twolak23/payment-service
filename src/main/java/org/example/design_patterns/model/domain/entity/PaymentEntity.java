@@ -13,12 +13,6 @@ public class PaymentEntity {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @Column(name = "person_from_name", nullable = false)
-  private String personFromName;
-
-  @Column(name = "person_to_name", nullable = false)
-  private String personToName;
-
   @ManyToOne
   @JoinColumn(name = "source_account", referencedColumnName = "id", nullable = false)
   private AccountEntity sourceAccount;
@@ -40,14 +34,19 @@ public class PaymentEntity {
   public PaymentEntity() {
   }
 
-  public PaymentEntity(String personFromName, String personToName, AccountEntity sourceAccount, AccountEntity targetAccount, double amount, Date paymentDate, PaymentStatusEnum status) {
-    this.personFromName = personFromName;
-    this.personToName = personToName;
+  public PaymentEntity(AccountEntity sourceAccount, AccountEntity targetAccount, double amount, Date paymentDate, PaymentStatusEnum status) {
     this.sourceAccount = sourceAccount;
     this.targetAccount = targetAccount;
     this.amount = amount;
     this.paymentDate = paymentDate;
     this.status = status;
+  }
+
+  public PaymentEntity(AccountEntity sourceAccount, AccountEntity targetAccount, double amount, Date paymentDate) {
+    this.sourceAccount = sourceAccount;
+    this.targetAccount = targetAccount;
+    this.amount = amount;
+    this.paymentDate = paymentDate;
   }
 
   public UUID getId() {
@@ -58,22 +57,6 @@ public class PaymentEntity {
     this.id = id;
   }
 
-  public String getPersonFromName() {
-    return personFromName;
-  }
-
-  public void setPersonFromName(String personFromName) {
-    this.personFromName = personFromName;
-  }
-
-  public String getPersonToName() {
-    return personToName;
-  }
-
-  public void setPersonToName(String personToName) {
-    this.personToName = personToName;
-  }
-
   public double getAmount() {
     return amount;
   }
@@ -81,9 +64,45 @@ public class PaymentEntity {
   public void setAmount(double amount) {
     this.amount = amount;
   }
+
+  public PaymentStatusEnum getStatus() {
+    return status;
+  }
+
+  public PaymentEntity setStatus(PaymentStatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
+  public Date getPaymentDate() {
+    return paymentDate;
+  }
+
+  public PaymentEntity setPaymentDate(Date paymentDate) {
+    this.paymentDate = paymentDate;
+    return this;
+  }
+
+  public AccountEntity getTargetAccount() {
+    return targetAccount;
+  }
+
+  public PaymentEntity setTargetAccount(AccountEntity targetAccount) {
+    this.targetAccount = targetAccount;
+    return this;
+  }
+
+  public AccountEntity getSourceAccount() {
+    return sourceAccount;
+  }
+
+  public PaymentEntity setSourceAccount(AccountEntity sourceAccount) {
+    this.sourceAccount = sourceAccount;
+    return this;
+  }
+
   public static class Builder {
-    private String personFromName;
-    private String personToName;
+
     private AccountEntity sourceAccount;
     private AccountEntity targetAccount;
     double amount;
@@ -112,16 +131,6 @@ public class PaymentEntity {
 
     public Builder sourceAccount(AccountEntity sourceAccount) {
       this.sourceAccount = sourceAccount;
-      return this;
-    }
-
-    public Builder personToName(String personToName) {
-      this.personToName = personToName;
-      return this;
-    }
-
-    public Builder personFromName(String personFromName) {
-      this.personFromName = personFromName;
       return this;
     }
   }
