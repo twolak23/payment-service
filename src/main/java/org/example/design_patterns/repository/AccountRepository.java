@@ -9,4 +9,6 @@ public interface AccountRepository extends CrudRepository<AccountEntity, UUID> {
   AccountEntity getAccountEntityById(UUID accountId);
 
   AccountEntity getAccountEntityByIban(String iban);
+
+  boolean existsByIdAndPin(UUID id, String pin);
 }

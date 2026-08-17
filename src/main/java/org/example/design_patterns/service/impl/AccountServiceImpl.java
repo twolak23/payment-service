@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@Service("realAccount")
 public class AccountServiceImpl implements AccountService {
 
   private final AccountRepository repository;
@@ -23,15 +23,22 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public AccountDetailsResponse getAccountDetails(UUID accountId) {
+  public AccountDetailsResponse getAccountDetails(UUID accountId, String pin) {
     AccountEntity entity = repository.getAccountEntityById(accountId);
-    return mapper.mapFromEntity(entity);
+    AccountDetailsResponse response = mapper.mapFromEntity(entity);
+    return response;
   }
 
   @Override
   public AccountEntity getAccountByIban(String iban) {
     AccountEntity entity = repository.getAccountEntityByIban(iban);
     return entity;
+  }
+
+  public AccountDetailsResponse getMaskedAccountDetails(UUID accountId) {
+    AccountEntity entity = repository.getAccountEntityById(accountId);
+    AccountDetailsResponse response = mapper.mapFromEntityAndMask(entity);
+    return response;
   }
 
   @Override

@@ -1,7 +1,4 @@
 package org.example.design_patterns.api;
-
-import org.example.design_patterns.model.domain.legacy.LegacyPaymentRequest;
-import org.example.design_patterns.model.domain.legacy.LegacyPaymentResponse;
 import org.example.design_patterns.model.rest.PaymentRequest;
 import org.example.design_patterns.model.rest.PaymentResponse;
 import org.example.design_patterns.service.PaymentService;

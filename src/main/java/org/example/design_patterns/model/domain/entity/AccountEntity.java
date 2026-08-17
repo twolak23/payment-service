@@ -2,6 +2,7 @@ package org.example.design_patterns.model.domain.entity;
 
 import jakarta.persistence.*;
 import org.example.design_patterns.model.enums.BankProviderEnum;
+import org.example.design_patterns.utils.EncryptionConverter;
 
 import java.util.UUID;
 
@@ -25,6 +26,10 @@ public class AccountEntity {
 
   @Column(name = "card_number", nullable = false)
   private String cardNumber;
+
+  @Column(name = "pin", nullable = false)
+  @Convert(converter = EncryptionConverter.class)
+  private String pin;
 
   @ManyToOne
   @JoinColumn(name = "person_id", referencedColumnName = "id")
@@ -56,6 +61,15 @@ public class AccountEntity {
 
   public AccountEntity setBalance(double balance) {
     this.balance = balance;
+    return this;
+  }
+
+  public String getPin() {
+    return pin;
+  }
+
+  public AccountEntity setPin(String pin) {
+    this.pin = pin;
     return this;
   }
 

@@ -10,16 +10,19 @@ public enum BankProviderEnum {
   MILLENNIUM("Millennium", "Bank Millennium"),
   REVOLUT("Revolut", "Revolut");
 
-  private String name;
-  private String description;
+  private final String name;
+  private final String description;
 
-  BankProviderEnum(String name, String description) {}
+  BankProviderEnum(String name, String description) {
+    this.name = name;
+    this.description = description;
+  }
 
   public BankProviderEnum getByDescription(String description){
 
-    List<BankProviderEnum> foundEnums = Arrays.stream(BankProviderEnum.values()).filter(enumValue -> enumValue.getDescription().equals(description)).collect(Collectors.toUnmodifiableList());
+    List<BankProviderEnum> foundEnums = Arrays.stream(BankProviderEnum.values()).filter(enumValue -> enumValue.getDescription().equals(description)).toList();
     if(foundEnums.size() == 1) {
-      return foundEnums.get(0);
+      return foundEnums.getFirst();
     }
     return null;
   }

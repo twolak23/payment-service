@@ -11,6 +11,7 @@ import org.example.design_patterns.service.PaymentProvider;
 import org.example.design_patterns.service.PaymentService;
 import org.example.design_patterns.service.discounter.Discounter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
   private final PaymentProvider paymentProvider;
 
   @Autowired
-  public PaymentServiceImpl(PaymentRepository repository, AccountService accountService, PaymentProvider paymentProvider) {
+  public PaymentServiceImpl(PaymentRepository repository, @Qualifier("realAccount") AccountService accountService, PaymentProvider paymentProvider) {
     this.repository = repository;
     this.accountService = accountService;
     this.paymentProvider = paymentProvider;
