@@ -1,4 +1,4 @@
-package org.example.design_patterns.model;
+package org.example.design_patterns.model.enums;
 
 public enum PaymentStatusEnum {
   ACCEPTED("Accepted"),

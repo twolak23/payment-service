@@ -1,8 +1,8 @@
 package org.example.design_patterns.service.adapter;
 
-import org.example.design_patterns.domain.PaymentRequest;
-import org.example.design_patterns.domain.PaymentResponse;
-import org.example.design_patterns.model.PaymentStatusEnum;
+import org.example.design_patterns.model.rest.PaymentRequest;
+import org.example.design_patterns.model.rest.PaymentResponse;
+import org.example.design_patterns.model.enums.PaymentStatusEnum;
 import org.example.design_patterns.service.PaymentProvider;
 import org.example.design_patterns.service.impl.bank.MillenniumLegacyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ public class MilleniumPaymentAdapter implements PaymentProvider {
   @Override
   public PaymentResponse makePayment(PaymentRequest request) {
     String result = legacyService.makePayment(
-            request.getPersonFrom(),
-            request.getPersonTo(),
+            request.getSourceAccountIban(),
+            request.getTargetAccountIban(),
             request.getAmount()
     );
-    return new PaymentResponse(request.getPersonFrom(), request.getPersonTo(), PaymentStatusEnum.ACCEPTED);
+    return new PaymentResponse(request.getSourceAccountIban(), request.getTargetAccountIban(), PaymentStatusEnum.ACCEPTED);
   }
 }

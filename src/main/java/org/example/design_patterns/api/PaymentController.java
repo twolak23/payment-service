@@ -1,7 +1,6 @@
 package org.example.design_patterns.api;
-
-import org.example.design_patterns.domain.legacy.LegacyPaymentRequest;
-import org.example.design_patterns.domain.legacy.LegacyPaymentResponse;
+import org.example.design_patterns.model.rest.PaymentRequest;
+import org.example.design_patterns.model.rest.PaymentResponse;
 import org.example.design_patterns.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,7 @@ public class PaymentController {
   }
 
   @PostMapping
-  public ResponseEntity<LegacyPaymentResponse> pay(@RequestBody LegacyPaymentRequest request) {
+  public ResponseEntity<PaymentResponse> pay(@RequestBody PaymentRequest request) {
 
     return new ResponseEntity<>(service.pay(request), HttpStatus.CREATED);
   }

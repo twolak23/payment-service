@@ -1,11 +1,11 @@
 package org.example.design_patterns.repository;
 
-import org.example.design_patterns.domain.legacy.LegacyPaymentEntity;
+import org.example.design_patterns.model.domain.entity.PaymentEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface PaymentRepository extends CrudRepository<LegacyPaymentEntity, UUID> {
+public interface PaymentRepository extends CrudRepository<PaymentEntity, UUID> {
 }

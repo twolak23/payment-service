@@ -1,7 +1,7 @@
 package org.example.design_patterns.service.impl.bank;
 
-import org.example.design_patterns.domain.PersonEntity;
-import org.example.design_patterns.model.PaymentStatusEnum;
+import org.example.design_patterns.model.domain.entity.PersonEntity;
+import org.example.design_patterns.model.enums.PaymentStatusEnum;
 import org.example.design_patterns.service.bank.BankService;
 import org.springframework.stereotype.Service;
 

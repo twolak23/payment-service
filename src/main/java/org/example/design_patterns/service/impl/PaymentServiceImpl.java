@@ -1,13 +1,17 @@
 package org.example.design_patterns.service.impl;
 
-import org.example.design_patterns.domain.legacy.LegacyPaymentEntity;
-import org.example.design_patterns.domain.legacy.LegacyPaymentRequest;
-import org.example.design_patterns.domain.legacy.LegacyPaymentResponse;
+import org.example.design_patterns.model.domain.entity.AccountEntity;
+import org.example.design_patterns.model.domain.entity.PaymentEntity;
+import org.example.design_patterns.model.enums.PaymentStatusEnum;
+import org.example.design_patterns.model.rest.PaymentRequest;
+import org.example.design_patterns.model.rest.PaymentResponse;
 import org.example.design_patterns.repository.PaymentRepository;
+import org.example.design_patterns.service.AccountService;
 import org.example.design_patterns.service.PaymentProvider;
 import org.example.design_patterns.service.PaymentService;
 import org.example.design_patterns.service.discounter.Discounter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +23,13 @@ import java.util.Date;
 public class PaymentServiceImpl implements PaymentService {
 
   private final PaymentRepository repository;
+  private final AccountService accountService;
   private final PaymentProvider paymentProvider;
 
   @Autowired
-  public PaymentServiceImpl(PaymentRepository repository, PaymentProvider paymentProvider) {
+  public PaymentServiceImpl(PaymentRepository repository, @Qualifier("realAccount") AccountService accountService, PaymentProvider paymentProvider) {
     this.repository = repository;
+    this.accountService = accountService;
     this.paymentProvider = paymentProvider;
   }
 
@@ -34,18 +40,26 @@ public class PaymentServiceImpl implements PaymentService {
 
   @Override
   @Transactional
-  public LegacyPaymentResponse pay(LegacyPaymentRequest request) {
-    request.setAmount(applyDiscount(request.getAmount()));
+  public PaymentResponse pay(PaymentRequest request) {
 
-    LegacyPaymentEntity entity = new LegacyPaymentEntity(request.getPersonFrom(), request.getPersonTo(), request.getAmount(), Date.from(Instant.now()));
+    AccountEntity sourceAccount = accountService.getAccountByIban(request.getSourceAccountIban());
+    AccountEntity targetAccount = accountService.getAccountByIban(request.getTargetAccountIban());
+
+    PaymentEntity entity = new PaymentEntity(sourceAccount, targetAccount, request.getAmount(), Date.from(Instant.now()), PaymentStatusEnum.ACCEPTED);
     try {
-      repository.save(entity);
+      entity = repository.save(entity);
+      PaymentResponse response = new PaymentResponse();
+      response.setPaymentId(entity.getId());
+      response.setPersonFrom(sourceAccount.getPerson().getFirstName() + " " + sourceAccount.getPerson().getLastName());
+      response.setPersonTo(targetAccount.getPerson().getFirstName() + " " + targetAccount.getPerson().getLastName());
+      response.setStatus(PaymentStatusEnum.ACCEPTED);
+      accountService.transfer(sourceAccount, targetAccount, request.getAmount());
+
+      return response;
     } catch (Exception e) {
       e.printStackTrace();
       throw e;
     }
-
-    return null;
   }
 
   private double applyDiscount(double amount) {
