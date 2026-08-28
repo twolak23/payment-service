@@ -55,7 +55,7 @@ public class PaymentServiceImpl implements PaymentService {
       response.setPersonTo(targetAccount.getPerson().getFirstName() + " " + targetAccount.getPerson().getLastName());
       response.setStatus(PaymentStatusEnum.ACCEPTED);
       accountService.transfer(sourceAccount, targetAccount, request.getAmount());
-      producer.publish(new PaymentCompletedEvent(entity.getId(),sourceAccount.getId(), targetAccount.getId(), entity.getAmount(), response.getStatus()));
+      producer.publish(new PaymentCompletedEvent(entity.getId(), sourceAccount.getEmail(), targetAccount.getEmail(), entity.getAmount(), response.getStatus()));
       return response;
     } catch (Exception e) {
       e.printStackTrace();

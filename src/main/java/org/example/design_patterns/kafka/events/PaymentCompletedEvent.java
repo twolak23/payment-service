@@ -6,8 +6,8 @@ import java.util.UUID;
 
 public record PaymentCompletedEvent(
         UUID paymentId,
-        UUID sourceAccountId,
-        UUID targetAccountId,
+        String sourceEmail,
+        String targetEmail,
         double amount,
         PaymentStatusEnum paymentStatus
 ) {}
