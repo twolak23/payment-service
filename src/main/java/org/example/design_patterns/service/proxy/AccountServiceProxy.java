@@ -1,8 +1,8 @@
 package org.example.design_patterns.service.proxy;
 
-import org.example.design_patterns.model.domain.entity.AccountEntity;
+import org.example.design_patterns.model.domain.entity.jpa.AccountEntity;
 import org.example.design_patterns.model.rest.AccountDetailsResponse;
-import org.example.design_patterns.repository.AccountRepository;
+import org.example.design_patterns.repository.jpa.AccountRepository;
 import org.example.design_patterns.service.AccountService;
 import org.example.design_patterns.service.impl.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

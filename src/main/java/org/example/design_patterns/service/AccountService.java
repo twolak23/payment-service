@@ -1,6 +1,6 @@
 package org.example.design_patterns.service;
 
-import org.example.design_patterns.model.domain.entity.AccountEntity;
+import org.example.design_patterns.model.domain.entity.jpa.AccountEntity;
 import org.example.design_patterns.model.rest.AccountDetailsResponse;
 
 import java.util.UUID;

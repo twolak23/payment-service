@@ -1,6 +1,6 @@
-package org.example.design_patterns.repository;
+package org.example.design_patterns.repository.jpa;
 
-import org.example.design_patterns.model.domain.entity.PaymentEntity;
+import org.example.design_patterns.model.domain.entity.jpa.PaymentEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

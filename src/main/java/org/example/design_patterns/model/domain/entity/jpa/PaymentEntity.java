@@ -1,4 +1,4 @@
-package org.example.design_patterns.model.domain.entity;
+package org.example.design_patterns.model.domain.entity.jpa;
 
 import jakarta.persistence.*;
 import org.example.design_patterns.model.enums.PaymentStatusEnum;

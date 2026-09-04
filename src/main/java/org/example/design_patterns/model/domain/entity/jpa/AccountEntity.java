@@ -1,4 +1,4 @@
-package org.example.design_patterns.model.domain.entity;
+package org.example.design_patterns.model.domain.entity.jpa;
 
 import jakarta.persistence.*;
 import org.example.design_patterns.model.enums.BankProviderEnum;
@@ -68,18 +68,16 @@ public class AccountEntity {
     return pin;
   }
 
-  public AccountEntity setPin(String pin) {
+  public void setPin(String pin) {
     this.pin = pin;
-    return this;
   }
 
   public String getCardNumber() {
     return cardNumber;
   }
 
-  public AccountEntity setCardNumber(String cardNumber) {
+  public void setCardNumber(String cardNumber) {
     this.cardNumber = cardNumber;
-    return this;
   }
 
   public PersonEntity getPerson() {

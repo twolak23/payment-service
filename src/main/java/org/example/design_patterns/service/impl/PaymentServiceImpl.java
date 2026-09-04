@@ -1,11 +1,11 @@
 package org.example.design_patterns.service.impl;
 
-import org.example.design_patterns.model.domain.entity.AccountEntity;
-import org.example.design_patterns.model.domain.entity.PaymentEntity;
+import org.example.design_patterns.model.domain.entity.jpa.AccountEntity;
+import org.example.design_patterns.model.domain.entity.jpa.PaymentEntity;
 import org.example.design_patterns.model.enums.PaymentStatusEnum;
 import org.example.design_patterns.model.rest.PaymentRequest;
 import org.example.design_patterns.model.rest.PaymentResponse;
-import org.example.design_patterns.repository.PaymentRepository;
+import org.example.design_patterns.repository.jpa.PaymentRepository;
 import org.example.design_patterns.service.AccountService;
 import org.example.design_patterns.service.PaymentProvider;
 import org.example.design_patterns.service.PaymentService;

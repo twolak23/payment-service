@@ -1,7 +1,7 @@
 package org.example.design_patterns.service.impl;
 
 import org.example.design_patterns.mapper.AccountDetailsMapper;
-import org.example.design_patterns.model.domain.entity.AccountEntity;
+import org.example.design_patterns.model.domain.entity.jpa.AccountEntity;
 import org.example.design_patterns.model.rest.AccountDetailsResponse;
 import org.example.design_patterns.repository.AccountRepository;
 import org.example.design_patterns.service.AccountService;
