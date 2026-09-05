@@ -4,6 +4,7 @@ import org.example.payment_service.mapper.AccountDetailsMapper;
 import org.example.payment_service.model.domain.entity.jpa.AccountEntity;
 import org.example.payment_service.model.rest.AccountDetailsResponse;
 import org.example.payment_service.repository.jpa.AccountRepository;
+import org.example.payment_service.repository.reactive.AccountReactiveRepository;
 import org.example.payment_service.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,12 @@ import java.util.UUID;
 public class AccountServiceImpl implements AccountService {
 
   private final AccountRepository repository;
+  private final AccountReactiveRepository reactiveRepository;
   private final AccountDetailsMapper mapper = new AccountDetailsMapper();
   @Autowired
-  AccountServiceImpl(AccountRepository repository) {
+  AccountServiceImpl(AccountRepository repository, AccountReactiveRepository reactiveRepository) {
     this.repository = repository;
+    this.reactiveRepository = reactiveRepository;
   }
 
   @Override
