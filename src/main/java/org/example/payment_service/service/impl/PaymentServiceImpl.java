@@ -24,12 +24,14 @@ import java.util.Date;
 public class PaymentServiceImpl implements PaymentService {
 
   private final PaymentRepository repository;
+  private final PaymentReactiveRepository reactiveRepository;
   private final AccountService accountService;
   private final PaymentProvider paymentProvider;
 
   @Autowired
-  public PaymentServiceImpl(PaymentRepository repository, @Qualifier("realAccount") AccountService accountService, PaymentProvider paymentProvider) {
+  public PaymentServiceImpl(PaymentRepository repository, PaymentReactiveRepository reactiveRepository, @Qualifier("realAccount") AccountService accountService, PaymentProvider paymentProvider) {
     this.repository = repository;
+    this.reactiveRepository = reactiveRepository;
     this.accountService = accountService;
     this.paymentProvider = paymentProvider;
   }

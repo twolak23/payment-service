@@ -1,25 +1,27 @@
-package org.example.design_patterns.model.domain.entity.reactive;
+package org.example.payment_service.model.domain.entity.reactive;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.relational.core.mapping.*;
+import org.springframework.data.annotation.Id;
+import org.example.payment_service.model.domain.dto.AccountDTO;
 
 import java.util.Collection;
 import java.util.UUID;
 
-@Entity(name = "person")
+@Table(name = "person")
 public class PersonEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
   @Column
   private UUID id;
 
-  @Column(name = "first_name", nullable = false)
+  @Column("first_name")
   private String firstName;
 
-  @Column(name = "last_name", nullable = false)
+  @Column("last_name")
   private String lastName;
 
-  @OneToMany
-  private Collection<AccountEntity> accounts;
+  @Transient
+  private Collection<AccountDTO> accounts;
 
   public PersonEntity(String firstName, String lastName) {
     this.firstName = firstName;
@@ -52,12 +54,11 @@ public class PersonEntity {
     this.lastName = lastName;
   }
 
-  public Collection<AccountEntity> getAccounts() {
+  public Collection<AccountDTO> getAccounts() {
     return accounts;
   }
 
-  public PersonEntity setAccounts(Collection<AccountEntity> accounts) {
+  public void setAccounts(Collection<AccountDTO> accounts) {
     this.accounts = accounts;
-    return this;
   }
 }
