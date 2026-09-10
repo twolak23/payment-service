@@ -6,9 +6,7 @@ import org.example.payment_service.model.enums.PaymentStatusEnum;
 import org.example.payment_service.model.rest.PaymentRequest;
 import org.example.payment_service.model.rest.PaymentResponse;
 import org.example.payment_service.repository.jpa.PaymentRepository;
-import org.example.payment_service.repository.reactive.PaymentReactiveRepository;
 import org.example.payment_service.service.AccountService;
-import org.example.payment_service.service.PaymentProvider;
 import org.example.payment_service.service.PaymentService;
 import org.example.payment_service.service.discounter.Discounter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +22,12 @@ import java.util.Date;
 public class PaymentServiceImpl implements PaymentService {
 
   private final PaymentRepository repository;
-  private final PaymentReactiveRepository reactiveRepository;
   private final AccountService accountService;
-  private final PaymentProvider paymentProvider;
 
   @Autowired
-  public PaymentServiceImpl(PaymentRepository repository, PaymentReactiveRepository reactiveRepository, @Qualifier("realAccount") AccountService accountService, PaymentProvider paymentProvider) {
+  public PaymentServiceImpl(PaymentRepository repository, @Qualifier("realAccount") AccountService accountService) {
     this.repository = repository;
-    this.reactiveRepository = reactiveRepository;
     this.accountService = accountService;
-    this.paymentProvider = paymentProvider;
   }
 
   // To reduce code verbosity for strategy, use lambda expressions instead of implemented classes
@@ -42,7 +36,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 
   @Override
-  @Transactional
+  @Transactional(transactionManager = "transactionManager")
   public PaymentResponse pay(PaymentRequest request) {
 
     AccountEntity sourceAccount = accountService.getAccountByIban(request.getSourceAccountIban());
