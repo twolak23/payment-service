@@ -1,5 +1,7 @@
 package org.example.design_patterns.service.impl;
 
+import org.example.design_patterns.kafka.events.PaymentCompletedEvent;
+import org.example.design_patterns.kafka.producer.PaymentProducer;
 import org.example.design_patterns.model.domain.entity.AccountEntity;
 import org.example.design_patterns.model.domain.entity.PaymentEntity;
 import org.example.design_patterns.model.enums.PaymentStatusEnum;
@@ -7,7 +9,6 @@ import org.example.design_patterns.model.rest.PaymentRequest;
 import org.example.design_patterns.model.rest.PaymentResponse;
 import org.example.design_patterns.repository.PaymentRepository;
 import org.example.design_patterns.service.AccountService;
-import org.example.design_patterns.service.PaymentProvider;
 import org.example.design_patterns.service.PaymentService;
 import org.example.design_patterns.service.discounter.Discounter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,13 @@ public class PaymentServiceImpl implements PaymentService {
 
   private final PaymentRepository repository;
   private final AccountService accountService;
-  private final PaymentProvider paymentProvider;
+  private final PaymentProducer producer;
 
   @Autowired
-  public PaymentServiceImpl(PaymentRepository repository, @Qualifier("realAccount") AccountService accountService, PaymentProvider paymentProvider) {
+  public PaymentServiceImpl(PaymentRepository repository, @Qualifier("realAccount") AccountService accountService, PaymentProducer producer) {
     this.repository = repository;
     this.accountService = accountService;
-    this.paymentProvider = paymentProvider;
+    this.producer = producer;
   }
 
   // To reduce code verbosity for strategy, use lambda expressions instead of implemented classes
@@ -54,7 +55,7 @@ public class PaymentServiceImpl implements PaymentService {
       response.setPersonTo(targetAccount.getPerson().getFirstName() + " " + targetAccount.getPerson().getLastName());
       response.setStatus(PaymentStatusEnum.ACCEPTED);
       accountService.transfer(sourceAccount, targetAccount, request.getAmount());
-
+      producer.publish(new PaymentCompletedEvent(entity.getId(), sourceAccount.getEmail(), targetAccount.getEmail(), entity.getAmount(), response.getStatus()));
       return response;
     } catch (Exception e) {
       e.printStackTrace();
