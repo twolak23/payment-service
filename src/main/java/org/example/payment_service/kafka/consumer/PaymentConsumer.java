@@ -1,7 +1,7 @@
-package org.example.design_patterns.kafka.consumer;
+package org.example.payment_service.kafka.consumer;
 
-import org.example.design_patterns.kafka.config.KafkaTopicConfig;
-import org.example.design_patterns.kafka.events.PaymentCompletedEvent;
+import org.example.payment_service.kafka.config.KafkaTopicConfig;
+import org.example.payment_service.kafka.events.PaymentCompletedEvent;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;

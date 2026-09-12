@@ -1,6 +1,6 @@
-package org.example.design_patterns.kafka.events;
+package org.example.payment_service.kafka.events;
 
-import org.example.design_patterns.model.enums.PaymentStatusEnum;
+import org.example.payment_service.model.enums.PaymentStatusEnum;
 
 import java.util.UUID;
 

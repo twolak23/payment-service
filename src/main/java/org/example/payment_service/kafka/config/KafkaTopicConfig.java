@@ -1,4 +1,4 @@
-package org.example.design_patterns.kafka.config;
+package org.example.payment_service.kafka.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
