@@ -8,6 +8,7 @@ import org.example.payment_service.model.rest.PaymentResponse;
 import org.example.payment_service.repository.reactive.PaymentReactiveRepository;
 import org.example.payment_service.service.impl.reactive.ReactiveAccountService;
 import org.example.payment_service.service.impl.reactive.ReactivePaymentService;
+import org.example.payment_service.service.impl.reactive.ReactivePersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -23,11 +24,13 @@ public class ReactivePaymentServiceImpl implements ReactivePaymentService {
 
   private final PaymentReactiveRepository repository;
   private final ReactiveAccountService accountService;
+  private final ReactivePersonService reactivePersonService;
 
   @Autowired
-  public ReactivePaymentServiceImpl(PaymentReactiveRepository repository, @Qualifier("realAccountReactive") ReactiveAccountService accountService) {
+  public ReactivePaymentServiceImpl(PaymentReactiveRepository repository, @Qualifier("realAccountReactive") ReactiveAccountService accountService, ReactivePersonService reactivePersonService) {
     this.repository = repository;
     this.accountService = accountService;
+    this.reactivePersonService = reactivePersonService;
   }
 
   @Override
@@ -46,9 +49,9 @@ public class ReactivePaymentServiceImpl implements ReactivePaymentService {
                                       sourceAccount,
                                       targetAccount,
                                       request.getAmount()
-                                  ).thenReturn(
-                                      createResponse(saved, sourceAccount, targetAccount)
-                                  )
+                                  ).thenReturn(createResponse(saved, sourceAccount, targetAccount))
+                                      .switchIfEmpty(Mono.error(new Exception()))
+                                      .flatMap(created -> created)
                           );
                     })
         );
@@ -56,22 +59,39 @@ public class ReactivePaymentServiceImpl implements ReactivePaymentService {
 
   @Override
   public Flux<PaymentResponse> getAllPayments() {
-    return repository.findAll().map(payment -> {
-      PaymentResponse response = new PaymentResponse();
-      response.setPaymentId(payment.getId());
-      response.setPersonFrom(payment.getSourceAccount().getPerson().getFirstName() + " " + payment.getSourceAccount().getPerson().getLastName());
-      response.setPersonTo(payment.getTargetAccount().getPerson().getFirstName() + " " + payment.getTargetAccount().getPerson().getLastName());
-      response.setStatus(PaymentStatusEnum.ACCEPTED);
-      return response;
-    });
+    return repository.findAll()
+        .flatMap(payment ->
+          reactivePersonService.getPersonById(payment.getSourceAccount().getPersonId())
+              .switchIfEmpty(Mono.error(new Exception()))
+              .flatMap(sourcePerson ->
+                  reactivePersonService.getPersonById(payment.getTargetAccount().getPersonId())
+                      .switchIfEmpty(Mono.error(new Exception()))
+                      .map(targetPerson -> {
+                        PaymentResponse response = new PaymentResponse();
+                        response.setPaymentId(payment.getId());
+                        response.setPersonFrom(sourcePerson.firstName() + " " + sourcePerson.lastName());
+                        response.setPersonTo(targetPerson.firstName() + " " + targetPerson.lastName());
+                        response.setStatus(PaymentStatusEnum.ACCEPTED);
+                        return response;
+                      })
+          )
+        );
   }
-  private PaymentResponse createResponse(PaymentEntity entity, AccountEntity sourceAccount, AccountEntity targetAccount) {
-    PaymentResponse response = new PaymentResponse();
-    response.setPaymentId(entity.getId());
-    response.setPersonFrom(sourceAccount.getPerson().getFirstName() + " " + sourceAccount.getPerson().getLastName());
-    response.setPersonTo(targetAccount.getPerson().getFirstName() + " " + targetAccount.getPerson().getLastName());
-    response.setStatus(PaymentStatusEnum.ACCEPTED);
-    return response;
+  private Mono<PaymentResponse> createResponse(PaymentEntity entity, AccountEntity sourceAccount, AccountEntity targetAccount) {
+    return reactivePersonService.getPersonById(sourceAccount.getPersonId())
+        .switchIfEmpty(Mono.error(new Exception()))
+        .flatMap(sourcePerson ->
+            reactivePersonService.getPersonById(entity.getTargetAccount().getPersonId())
+                .switchIfEmpty(Mono.error(new Exception()))
+                .map(targetPerson -> {
+                  PaymentResponse response = new PaymentResponse();
+                  response.setPaymentId(entity.getId());
+                  response.setPersonFrom(sourcePerson.firstName() + " " + sourcePerson.lastName());
+                  response.setPersonTo(targetPerson.firstName() + " " + targetPerson.lastName());
+                  response.setStatus(PaymentStatusEnum.ACCEPTED);
+                  return response;
+                })
+        );
   }
 
   public PaymentReactiveRepository getRepository() {

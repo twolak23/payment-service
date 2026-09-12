@@ -28,7 +28,7 @@ public class AccountEntity {
   private String pin;
 
   @Column("person_id")
-  private PersonEntity person;
+  private UUID personId;
 
   public UUID getId() {
     return id;
@@ -75,11 +75,11 @@ public class AccountEntity {
     this.cardNumber = cardNumber;
   }
 
-  public PersonEntity getPerson() {
-    return person;
+  public UUID getPersonId() {
+    return personId;
   }
 
-  public void setPerson(PersonEntity personId) {
-    this.person = personId;
+  public void setPersonId(UUID personId) {
+    this.personId = personId;
   }
 }

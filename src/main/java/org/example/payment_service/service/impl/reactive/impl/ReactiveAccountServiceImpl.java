@@ -5,6 +5,7 @@ import org.example.payment_service.model.domain.entity.reactive.AccountEntity;
 import org.example.payment_service.model.rest.AccountDetailsResponse;
 import org.example.payment_service.repository.reactive.AccountReactiveRepository;
 import org.example.payment_service.service.impl.reactive.ReactiveAccountService;
+import org.example.payment_service.service.impl.reactive.ReactivePersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,18 +18,22 @@ import java.util.UUID;
 public class ReactiveAccountServiceImpl implements ReactiveAccountService {
 
   private final AccountReactiveRepository repository;
+  private final ReactivePersonService personService;
   private final ReactiveAccountDetailsMapper mapper = new ReactiveAccountDetailsMapper();
   @Autowired
-  ReactiveAccountServiceImpl(AccountReactiveRepository repository) {
+  ReactiveAccountServiceImpl(AccountReactiveRepository repository, ReactivePersonService personService) {
     this.repository = repository;
+    this.personService = personService;
   }
 
   @Override
   public Mono<AccountDetailsResponse> getAccountDetails(UUID accountId, String pin) {
     return repository.getAccountEntityById(accountId)
             .switchIfEmpty(Mono.error(new Exception()))
-            .map((accountEntity ->
-              mapper.mapFromEntity(accountEntity, accountEntity.getPerson())
+            .flatMap((accountEntity ->
+                    personService.getPersonById(accountEntity.getPersonId())
+                        .switchIfEmpty(Mono.error(new Exception()))
+                        .map(personDTO -> mapper.mapFromEntity(accountEntity, personDTO))
             ));
   }
 
@@ -43,9 +48,11 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
   public Mono<AccountDetailsResponse> getMaskedAccountDetails(UUID accountId) {
     return repository.getAccountEntityById(accountId)
             .switchIfEmpty(Mono.error(new Exception()))
-            .map(
-                account -> mapper.mapFromEntity(account, account.getPerson())
-            );
+        .flatMap((accountEntity ->
+            personService.getPersonById(accountEntity.getPersonId())
+                .switchIfEmpty(Mono.error(new Exception()))
+                .map(personDTO -> mapper.mapFromEntityAndMask(accountEntity, personDTO))
+        ));
   }
 
   @Override
