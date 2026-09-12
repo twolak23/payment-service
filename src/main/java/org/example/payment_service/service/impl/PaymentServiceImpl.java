@@ -1,5 +1,7 @@
 package org.example.payment_service.service.impl;
 
+import org.example.payment_service.kafka.producer.PaymentProducer;
+import org.example.payment_service.kafka.events.PaymentCompletedEvent;
 import org.example.payment_service.model.domain.entity.jpa.AccountEntity;
 import org.example.payment_service.model.domain.entity.jpa.PaymentEntity;
 import org.example.payment_service.model.enums.PaymentStatusEnum;
@@ -23,11 +25,13 @@ public class PaymentServiceImpl implements PaymentService {
 
   private final PaymentRepository repository;
   private final AccountService accountService;
+  private final PaymentProducer producer;
 
   @Autowired
-  public PaymentServiceImpl(PaymentRepository repository, @Qualifier("realAccount") AccountService accountService) {
+  public PaymentServiceImpl(PaymentRepository repository, @Qualifier("realAccount") AccountService accountService, PaymentProducer producer) {
     this.repository = repository;
     this.accountService = accountService;
+    this.producer = producer;
   }
 
   // To reduce code verbosity for strategy, use lambda expressions instead of implemented classes
@@ -51,7 +55,7 @@ public class PaymentServiceImpl implements PaymentService {
       response.setPersonTo(targetAccount.getPerson().getFirstName() + " " + targetAccount.getPerson().getLastName());
       response.setStatus(PaymentStatusEnum.ACCEPTED);
       accountService.transfer(sourceAccount, targetAccount, request.getAmount());
-
+      producer.publish(new PaymentCompletedEvent(entity.getId(), sourceAccount.getEmail(), targetAccount.getEmail(), entity.getAmount(), response.getStatus()));
       return response;
     } catch (Exception e) {
       e.printStackTrace();

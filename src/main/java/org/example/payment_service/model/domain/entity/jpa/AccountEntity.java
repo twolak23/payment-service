@@ -31,6 +31,9 @@ public class AccountEntity {
   @Convert(converter = EncryptionConverter.class)
   private String pin;
 
+  @Column(name="email", nullable = false)
+  private String email;
+
   @ManyToOne
   @JoinColumn(name = "person_id", referencedColumnName = "id")
   private PersonEntity person;
@@ -77,6 +80,15 @@ public class AccountEntity {
 
   public void setCardNumber(String cardNumber) {
     this.cardNumber = cardNumber;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public AccountEntity setEmail(String email) {
+    this.email = email;
+    return this;
   }
 
   public PersonEntity getPerson() {
