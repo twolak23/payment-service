@@ -7,19 +7,18 @@ import java.util.Date;
 import java.util.UUID;
 
 
-@Table("payment_reactive")
+@Table("payment")
 public class PaymentEntity {
 
   @Id
   @Column
   private UUID id;
 
-  // TODO: add relation to Account entity and not null constraint
   @Column(value = "source_account")
-  private AccountEntity sourceAccount;
+  private UUID sourceAccountId;
 
   @Column("target_account")
-  private AccountEntity targetAccount;
+  private UUID targetAccountId;
 
   @Column("amount")
   private double amount;
@@ -33,17 +32,17 @@ public class PaymentEntity {
   public PaymentEntity() {
   }
 
-  public PaymentEntity(AccountEntity sourceAccount, AccountEntity targetAccount, double amount, Date paymentDate, PaymentStatusEnum status) {
-    this.sourceAccount = sourceAccount;
-    this.targetAccount = targetAccount;
+  public PaymentEntity(UUID sourceAccountId, UUID targetAccountId, double amount, Date paymentDate, PaymentStatusEnum status) {
+    this.sourceAccountId = sourceAccountId;
+    this.targetAccountId = targetAccountId;
     this.amount = amount;
     this.paymentDate = paymentDate;
     this.status = status;
   }
 
-  public PaymentEntity(AccountEntity sourceAccount, AccountEntity targetAccount, double amount, Date paymentDate) {
-    this.sourceAccount = sourceAccount;
-    this.targetAccount = targetAccount;
+  public PaymentEntity(UUID sourceAccountId, UUID targetAccountId, double amount, Date paymentDate) {
+    this.sourceAccountId = sourceAccountId;
+    this.targetAccountId = targetAccountId;
     this.amount = amount;
     this.paymentDate = paymentDate;
   }
@@ -82,28 +81,27 @@ public class PaymentEntity {
     return this;
   }
 
-  public AccountEntity getTargetAccount() {
-    return targetAccount;
+  public UUID getTargetAccountId() {
+    return targetAccountId;
   }
 
-  public PaymentEntity setTargetAccount(AccountEntity targetAccount) {
-    this.targetAccount = targetAccount;
+  public PaymentEntity setTargetAccountId(UUID targetAccountId) {
+    this.targetAccountId = targetAccountId;
     return this;
   }
 
-  public AccountEntity getSourceAccount() {
-    return sourceAccount;
+  public UUID getSourceAccountId() {
+    return sourceAccountId;
   }
 
-  public PaymentEntity setSourceAccount(AccountEntity sourceAccount) {
-    this.sourceAccount = sourceAccount;
-    return this;
+  public void setSourceAccountId(UUID sourceAccountId) {
+    this.sourceAccountId = sourceAccountId;
   }
 
   public static class Builder {
 
-    private AccountEntity sourceAccount;
-    private AccountEntity targetAccount;
+    private UUID sourceAccountId;
+    private UUID targetAccountId;
     double amount;
     Date paymentDate;
     PaymentStatusEnum status;
@@ -123,13 +121,13 @@ public class PaymentEntity {
       return this;
     }
 
-    public Builder targetAccount(AccountEntity targetAccount) {
-      this.targetAccount = targetAccount;
+    public Builder targetAccountId(UUID targetAccountId) {
+      this.targetAccountId = targetAccountId;
       return this;
     }
 
-    public Builder sourceAccount(AccountEntity sourceAccount) {
-      this.sourceAccount = sourceAccount;
+    public Builder sourceAccountId(UUID sourceAccountId) {
+      this.sourceAccountId = sourceAccountId;
       return this;
     }
   }

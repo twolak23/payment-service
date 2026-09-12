@@ -5,7 +5,7 @@ import org.example.payment_service.model.enums.BankProviderEnum;
 import org.springframework.data.annotation.Id;
 import java.util.UUID;
 
-@org.springframework.data.relational.core.mapping.Table(name = "account_reactive")
+@org.springframework.data.relational.core.mapping.Table(name = "account")
 public class AccountEntity {
 
   @Id
@@ -54,9 +54,8 @@ public class AccountEntity {
     return balance;
   }
 
-  public AccountEntity setBalance(double balance) {
+  public void setBalance(double balance) {
     this.balance = balance;
-    return this;
   }
 
   public String getPin() {

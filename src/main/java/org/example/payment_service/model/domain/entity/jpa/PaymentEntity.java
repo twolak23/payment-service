@@ -6,7 +6,7 @@ import org.example.payment_service.model.enums.PaymentStatusEnum;
 import java.util.Date;
 import java.util.UUID;
 
-@Entity(name = "payment_v2")
+@Entity(name = "payment")
 public class PaymentEntity {
 
   @Id

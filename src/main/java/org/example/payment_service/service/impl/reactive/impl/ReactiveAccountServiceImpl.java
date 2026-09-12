@@ -45,6 +45,13 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
   }
 
   @Override
+  public Mono<UUID> getPersonIdByAccountId(UUID id) {
+    return repository.getAccountEntityById(id)
+        .switchIfEmpty(Mono.error(new Exception()))
+        .map(AccountEntity::getPersonId);
+  }
+
+  @Override
   public Mono<AccountDetailsResponse> getMaskedAccountDetails(UUID accountId) {
     return repository.getAccountEntityById(accountId)
             .switchIfEmpty(Mono.error(new Exception()))

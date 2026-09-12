@@ -29,7 +29,7 @@ public class ReactiveAccountController {
    * @return Details of a found account, which can be masked, depending on the result of PIN authentication.
    */
   @PostMapping("/details/{id}")
-  public Mono<AccountDetailsResponse> getAccountDetails(@PathVariable @PathParam("id") String id, @RequestParam("pin") String pin) {
+  public Mono<AccountDetailsResponse> getAccountDetails(@PathVariable @PathParam("id") String id, @RequestBody(required = false) String pin) {
     return this.service.getAccountDetails(UUID.fromString(id), pin);
   }
 

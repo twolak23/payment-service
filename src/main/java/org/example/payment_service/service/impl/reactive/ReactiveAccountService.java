@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface ReactiveAccountService {
   Mono<AccountDetailsResponse> getAccountDetails(UUID accountId, String pin);
   Mono<AccountEntity> getAccountByIban(String iban);
+  Mono<UUID> getPersonIdByAccountId(UUID id);
   Mono<Void> transfer(AccountEntity source, AccountEntity target, double amount);
   Mono<AccountDetailsResponse> getMaskedAccountDetails(UUID accountId);
 }

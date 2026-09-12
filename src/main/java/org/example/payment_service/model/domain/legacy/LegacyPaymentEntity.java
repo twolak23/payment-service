@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
-@Entity(name = "payment")
+@Entity(name = "legacy_payment")
 public class LegacyPaymentEntity {
 
   @Id
